@@ -20,13 +20,13 @@ function App() {
           <div className="col">
           <Banner />
           <Routes>
-            <Route path='*' element={<HomePage />} />
+            <Route path='/' element={<HomePage />} />
             <Route path='/catalog.html' element={<Catalog />} />
             <Route path='/catalog/:id.html' element={<Item />} />
             <Route path='/about.html' element={<About />} />
             <Route path='/contacts.html' element={<Contacts />} />
             <Route path='/cart.html' element={<Cart />} />
-            <Route path='/page404.html' element={<Page404 />} />
+            <Route path='*' element={<Page404 />} />
           </Routes>
           </div>
         </div>
