@@ -1,21 +1,35 @@
-import sandalsMyer from '../img/sandals_myer.jpg';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadTopSales } from '../store/topSalesSlice';
+import CatalogItem from './CatalogItem';
 
 function TopSale() {
+  const topSalesList = useSelector(state => state.topSales.list);
+  const dispatch = useDispatch();   
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(`${import.meta.env.VITE_SHOP_API_URL}/top-sales`);
+      const data = await response.json();
+  
+      console.log(data);
+      dispatch(loadTopSales(data));
+    }
+
+    fetchData();    
+  }, []);
+
+  if (!topSalesList.length) {
+    return null;
+  }
   return (
     <section className="top-sales">
-      <h2 className="text-center">Хиты продаж!</h2>
-      <div className="row">
-      <div className="col-4">
-        <div className="card catalog-item-card">
-          <img src={sandalsMyer} className="card-img-top img-fluid" alt="Босоножки &apos;MYER&apos;" />
-          <div className="card-body">
-            <p className="card-text">Босоножки &apos;MYER&apos;</p>
-            <p className="card-text">34 000 руб.</p>
-            <a href="/products/1.html" className="btn btn-outline-primary">Заказать</a>
-          </div>
-        </div>
-      </div>
-      </div>
+      <h2 className="text-center">Хиты продаж!</h2> 
+      <div className="row">   
+        {topSalesList.map(item => (
+          <CatalogItem key={item.id} {...item} />
+        ))}   
+      </div>     
     </section>
   );
 }
