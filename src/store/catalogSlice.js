@@ -1,7 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchData } from '../utils';
 
-const initialState = { categoriesList: [], itemsList: [], activeNavigator: "All", isLoading: 'idle', error: null};
+const initialState = {
+  categoriesList: [],
+  itemsList: [],
+  activeNavigator: "All",
+  isButtonAvailable: false,
+  isLoading: 'idle',
+  error: null,
+};
 
 export const fetchCategories = createAsyncThunk(
   'catalog/fetchCategories',
@@ -42,6 +49,9 @@ const catalogSlice = createSlice({
       })
       .addCase(fetchItems.fulfilled, (state, action) => {        
         state.itemsList = action.payload;  
+        if (state.itemsList.length >= 6) {
+          state.isButtonAvailable = true;
+        } 
         state.isLoading = 'idle';    
       })
       .addCase(fetchItems.rejected, (state, action) => {        

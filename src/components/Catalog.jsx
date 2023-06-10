@@ -6,7 +6,7 @@ import CatalogItem from './CatalogItem';
 import Loader from './Loader';
 
 function Catalog() {
-  const {itemsList, isLoading} = useSelector(state => state.catalog);
+  const {itemsList, isLoading, isButtonAvailable} = useSelector(state => state.catalog);
   const dispatch = useDispatch();   
 
   useEffect(() => {      
@@ -18,15 +18,24 @@ function Catalog() {
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
       <CatalogNavigator />
-      {isLoading === 'loading' ?
+      {isLoading === 'loading' ? (
         <Loader />
-      :
-        <div className="row">   
-          {itemsList.map(item => (
-            <CatalogItem key={item.id} {...item} />
-          ))}   
-        </div>
-      }           
+      ) : (
+        <>
+          <div className="row">   
+            {itemsList.map(item => (
+              <CatalogItem key={item.id} {...item} />
+            ))}   
+          </div>
+          {isButtonAvailable ? (
+            <div className="text-center">
+              <button className="btn btn-outline-primary">Загрузить ещё</button>
+            </div>
+          ) : (
+            null
+          )}
+        </>        
+      )}           
     </section>
   );
 }

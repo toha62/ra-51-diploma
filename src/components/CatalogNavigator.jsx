@@ -3,7 +3,7 @@ import { setActiveNavigator } from '../store/catalogSlice';
 import CatalogNavigatorItem from "./CatalogNavigatorItem";
 
 function CatalogNavigator() {
-  const { activeNavigator, categoriesList } = useSelector(state => state.catalog);
+  const { activeNavigator, categoriesList, isLoading } = useSelector(state => state.catalog);
   const dispatch = useDispatch();
 
   const handleClick = (evt) => {
@@ -12,20 +12,24 @@ function CatalogNavigator() {
   }
 
   return (
-    <ul className="catalog-categories nav justify-content-center">
-      <li className="nav-item">
-        <a
-          className={activeNavigator === "All" ? "nav-link active" : "nav-link"}
-          href=""
-          onClick={handleClick}
-        >
-          Всё
-        </a>
-      </li>
-      {categoriesList.map(item => (
-        <CatalogNavigatorItem key={item.id} {...item} />
-      ))}      
-    </ul>
+    isLoading === 'idle' ? (
+      <ul className="catalog-categories nav justify-content-center">      
+        <li className="nav-item">        
+          <a
+            className={activeNavigator === "All" ? "nav-link active" : "nav-link"}
+            href=""
+            onClick={handleClick}
+          >
+            Всё
+          </a>
+        </li>
+        {categoriesList.map(item => (
+          <CatalogNavigatorItem key={item.id} {...item} />
+        ))}      
+      </ul>
+    ) : (
+      null
+    )       
   );
 }
 
