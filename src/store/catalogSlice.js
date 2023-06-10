@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchData } from '../utils';
 
-const initialState = { categoriesList: [], itemsList: [], isLoading: 'idle', error: null};
+const initialState = { categoriesList: [], itemsList: [], activeNavigator: 12, isLoading: 'idle', error: null};
 
 export const fetchCategories = createAsyncThunk(
   'catalog/fetchCategories',
@@ -11,12 +11,12 @@ export const fetchCategories = createAsyncThunk(
 const catalogSlice = createSlice({
   name: 'catalog',
   initialState,
-  // reducers: {
-  //   loadTopSales(state, action) {
-  //     // console.log('payload', action.payload);
-  //     state.list = action.payload;
-  //   },
-  // },
+  reducers: {
+    setActiveNavigator(state, action) {
+      // console.log('payload', action.payload);
+      state.activeNavigator = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCategories.pending, (state) => {        
@@ -34,5 +34,5 @@ const catalogSlice = createSlice({
   },
 });
 
-export const { loadCatalog } = catalogSlice.actions;
+export const { setActiveNavigator } = catalogSlice.actions;
 export default catalogSlice.reducer;
