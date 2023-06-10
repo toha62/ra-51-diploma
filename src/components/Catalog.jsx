@@ -1,34 +1,36 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTopSales } from '../store/topSalesSlice';
+import { fetchCategories } from '../store/catalogSlice';
+import CatalogNavigator from './CatalogNavigator';
 import CatalogItem from './CatalogItem';
 import Loader from './Loader';
 
-function TopSale() {
-  const {list: topSalesList, isLoading} = useSelector(state => state.topSales);
+function Catalog() {
+  const {categoriesList, isLoading} = useSelector(state => state.catalog);
   const dispatch = useDispatch();   
 
   useEffect(() => {      
-    dispatch(fetchTopSales('top-sales'));    
+    dispatch(fetchCategories('categories'));    
   }, []);
 
   // if (!topSalesList.length) {
   //   return null;
   // }
   return (
-    <section className="top-sales">
-      <h2 className="text-center">Хиты продаж!</h2>
+    <section className="catalog">
+      <h2 className="text-center">Каталог</h2>
+      <CatalogNavigator categoriesList={categoriesList} />
       {isLoading === 'loading' ?
         <Loader />
       :
         <div className="row">   
-          {topSalesList.map(item => (
+          {/* {categoriesList.map(item => (
             <CatalogItem key={item.id} {...item} />
-          ))}   
+          ))}    */}
         </div>
       }           
     </section>
   );
 }
 
-export default TopSale;
+export default Catalog;

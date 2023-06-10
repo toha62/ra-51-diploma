@@ -1,15 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { fetchData } from '../utils';
 
 const initialState = { list: [], isLoading: 'idle', error: null};
 
 export const fetchTopSales = createAsyncThunk(
   'topSales/fetchData',
-  async () => {
-    const response = await fetch(`${import.meta.env.VITE_SHOP_API_URL}/top-sales`);
-    const data = await response.json();
-   
-    return data;
-  }
+  fetchData,
 );
 
 const topSalesSlice = createSlice({
