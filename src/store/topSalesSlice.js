@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-const initialState = { list: []};
+const initialState = { list: [], isLoading: 'idle', error: null};
 
 export const fetchTopSales = createAsyncThunk(
   'topSales/fetchData',
@@ -23,9 +23,18 @@ const topSalesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchTopSales.pending, (state) => {        
+        state.isLoading = 'loading';
+        state.error = null;
+      })
       .addCase(fetchTopSales.fulfilled, (state, action) => {        
-        state.list = action.payload;
-    })
+        state.list = action.payload;  
+        state.isLoading = 'idle';    
+      })
+      .addCase(fetchTopSales.rejected, (state, action) => {        
+        state.isLoading = 'failed';
+        state.error = action.error;
+      });
   },
 });
 
