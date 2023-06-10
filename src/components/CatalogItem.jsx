@@ -1,5 +1,5 @@
 function CatalogItem({ title, price, images }) {
-  console.log('Item', title, price, images);
+  
   return (    
     <div className="col-4">
       <div className="card catalog-item-card">

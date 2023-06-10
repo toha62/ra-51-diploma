@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadTopSales } from '../store/topSalesSlice';
+// import { loadTopSales } from '../store/topSalesSlice';
+import { fetchTopSales } from '../store/topSalesSlice';
 import CatalogItem from './CatalogItem';
 
 function TopSale() {
@@ -8,15 +9,16 @@ function TopSale() {
   const dispatch = useDispatch();   
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`${import.meta.env.VITE_SHOP_API_URL}/top-sales`);
-      const data = await response.json();
+    // const fetchData = async () => {
+    //   const response = await fetch(`${import.meta.env.VITE_SHOP_API_URL}/top-sales`);
+    //   const data = await response.json();
   
-      console.log(data);
-      dispatch(loadTopSales(data));
-    }
+    //   console.log(data);
+    //   dispatch(loadTopSales(data));
+    // }
 
-    fetchData();    
+    // fetchData();    
+    dispatch(fetchTopSales());    
   }, []);
 
   if (!topSalesList.length) {
