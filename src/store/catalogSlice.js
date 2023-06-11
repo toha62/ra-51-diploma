@@ -4,8 +4,9 @@ import { fetchData } from '../utils';
 const initialState = {
   categoriesList: [],
   itemsList: [],
+  offset: 0,
   activeNavigator: "All",
-  isButtonAvailable: false,
+  isButtonAvailable: true,
   isLoading: 'idle',
   error: null,
 };
@@ -48,9 +49,10 @@ const catalogSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchItems.fulfilled, (state, action) => {        
-        state.itemsList = action.payload;  
-        if (state.itemsList.length >= 6) {
-          state.isButtonAvailable = true;
+        state.itemsList.push(...action.payload); 
+        state.offset += 6; 
+        if (action.payload.length < 6) {
+          state.isButtonAvailable = false;
         } 
         state.isLoading = 'idle';    
       })

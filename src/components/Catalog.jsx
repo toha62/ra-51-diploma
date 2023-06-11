@@ -6,7 +6,7 @@ import CatalogItem from './CatalogItem';
 import Loader from './Loader';
 
 function Catalog() {
-  const {itemsList, isLoading, isButtonAvailable} = useSelector(state => state.catalog);
+  const {itemsList, isLoading, offset, isButtonAvailable} = useSelector(state => state.catalog);
   const dispatch = useDispatch();   
 
   useEffect(() => {      
@@ -29,7 +29,12 @@ function Catalog() {
           </div>
           {isButtonAvailable ? (
             <div className="text-center">
-              <button className="btn btn-outline-primary">Загрузить ещё</button>
+              <button
+                className="btn btn-outline-primary"
+                onClick={() => dispatch(fetchItems(`items?offset=${offset}`))}
+              >
+                Загрузить ещё
+              </button>
             </div>
           ) : (
             null
