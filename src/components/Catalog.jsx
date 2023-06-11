@@ -17,30 +17,26 @@ function Catalog() {
   return (
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
-      <CatalogNavigator />
+      <CatalogNavigator />       
+      <div className="row">   
+        {itemsList.map(item => (
+          <CatalogItem key={item.id} {...item} />
+        ))}   
+      </div>
       {isLoading === 'loading' ? (
         <Loader />
+      ) : isButtonAvailable ? (
+        <div className="text-center">
+          <button
+            className="btn btn-outline-primary"
+            onClick={() => dispatch(fetchItems(`items?offset=${offset}`))}
+          >
+            Загрузить ещё
+          </button>
+        </div>
       ) : (
-        <>
-          <div className="row">   
-            {itemsList.map(item => (
-              <CatalogItem key={item.id} {...item} />
-            ))}   
-          </div>
-          {isButtonAvailable ? (
-            <div className="text-center">
-              <button
-                className="btn btn-outline-primary"
-                onClick={() => dispatch(fetchItems(`items?offset=${offset}`))}
-              >
-                Загрузить ещё
-              </button>
-            </div>
-          ) : (
-            null
-          )}
-        </>        
-      )}           
+        null
+      )}                      
     </section>
   );
 }
