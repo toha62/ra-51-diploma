@@ -3,7 +3,7 @@ import { fetchData } from '../utils';
 
 const initialState = {
   categoriesList: [],
-  itemsList: [],
+  itemsList: [],  
   offset: 0,
   activeNavigator: "All",
   isButtonAvailable: true,
@@ -26,8 +26,10 @@ const catalogSlice = createSlice({
   initialState,
   reducers: {
     setActiveNavigator(state, action) {
-      // console.log('payload', action.payload);
       state.activeNavigator = action.payload;
+      state.offset = 0;
+      state.itemsList = [];
+      state.isButtonAvailable = true;  
     },
   },
   extraReducers: (builder) => {
@@ -48,12 +50,15 @@ const catalogSlice = createSlice({
         state.isLoading = 'loading';
         state.error = null;
       })
-      .addCase(fetchItems.fulfilled, (state, action) => {        
-        state.itemsList.push(...action.payload); 
+      .addCase(fetchItems.fulfilled, (state, action) => {         
+        state.itemsList.push(...action.payload);    
+        
         state.offset += 6; 
+
         if (action.payload.length < 6) {
           state.isButtonAvailable = false;
         } 
+
         state.isLoading = 'idle';    
       })
       .addCase(fetchItems.rejected, (state, action) => {        

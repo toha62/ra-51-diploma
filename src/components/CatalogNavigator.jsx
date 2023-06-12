@@ -1,14 +1,9 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { setActiveNavigator } from '../store/catalogSlice';
+import { useSelector } from 'react-redux';
+// import { setActiveNavigator } from '../store/catalogSlice';
 import CatalogNavigatorItem from "./CatalogNavigatorItem";
 
-function CatalogNavigator() {
+function CatalogNavigator({ handleClickNavigator }) {
   const { activeNavigator, categoriesList } = useSelector(state => state.catalog);
-  const dispatch = useDispatch();
-
-  const handleClickNavigator = (navigatorId) => {    
-    dispatch(setActiveNavigator(navigatorId));
-  }
 
   return (    
       <ul className="catalog-categories nav justify-content-center">      
