@@ -1,11 +1,13 @@
 import TopSale from "../components/TopSale";
 import Catalog from "../components/Catalog";
 
-export default function HomePage() {
+function HomePage() {
   return (
     <>
       <TopSale /> 
-      <Catalog />
+      <Catalog isSearch={false} />
     </>    
   );  
 }
+
+export default HomePage;

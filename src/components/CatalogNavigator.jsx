@@ -3,15 +3,14 @@ import { setActiveNavigator } from '../store/catalogSlice';
 import CatalogNavigatorItem from "./CatalogNavigatorItem";
 
 function CatalogNavigator() {
-  const { activeNavigator, categoriesList, isLoading } = useSelector(state => state.catalog);
+  const { activeNavigator, categoriesList } = useSelector(state => state.catalog);
   const dispatch = useDispatch();
 
   const handleClickNavigator = (navigatorId) => {    
     dispatch(setActiveNavigator(navigatorId));
   }
 
-  return (
-    isLoading === 'idle' ? (
+  return (    
       <ul className="catalog-categories nav justify-content-center">      
         <li className="nav-item">        
           <a
@@ -21,9 +20,7 @@ function CatalogNavigator() {
               evt.preventDefault();
               handleClickNavigator("All");
             }}
-          >
-            Всё
-          </a>
+          > Всё </a>
         </li>
         {categoriesList.map(item => (
           <CatalogNavigatorItem
@@ -32,10 +29,7 @@ function CatalogNavigator() {
             activeNavigator={activeNavigator}
             {...item} />
         ))}      
-      </ul>
-    ) : (
-      null
-    )       
+      </ul>    
   );
 }
 

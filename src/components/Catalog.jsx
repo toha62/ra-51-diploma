@@ -2,21 +2,30 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategories, fetchItems } from '../store/catalogSlice';
 import CatalogNavigator from './CatalogNavigator';
+import CatalogSearch from './CatalogSearch';
 import CatalogItem from './CatalogItem';
+import CatalogButtonLoadMore from './CatalogButtonLoadMore';
 import Loader from './Loader';
 
-function Catalog() {
+function Catalog({ isSearch }) {
   const {itemsList, isLoading, offset, isButtonAvailable} = useSelector(state => state.catalog);
   const dispatch = useDispatch();   
 
   useEffect(() => {      
-    dispatch(fetchCategories('categories'));    
-    dispatch(fetchItems('items'));    
+    dispatch(fetchCategories('categories')); 
+    if (!itemsList.length) {
+      dispatch(fetchItems('items'));
+    }           
   }, []);
+
+  const handleClickLoadMore = () => {
+    dispatch(fetchItems(`items?offset=${offset}`));
+  }
 
   return (
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
+      {isSearch ? <CatalogSearch /> : null}
       <CatalogNavigator />       
       <div className="row">   
         {itemsList.map(item => (
@@ -26,14 +35,7 @@ function Catalog() {
       {isLoading === 'loading' ? (
         <Loader />
       ) : isButtonAvailable ? (
-        <div className="text-center">
-          <button
-            className="btn btn-outline-primary"
-            onClick={() => dispatch(fetchItems(`items?offset=${offset}`))}
-          >
-            Загрузить ещё
-          </button>
-        </div>
+        <CatalogButtonLoadMore handleClickLoadMore={handleClickLoadMore} />
       ) : (
         null
       )}                      
