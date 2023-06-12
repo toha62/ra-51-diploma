@@ -6,9 +6,8 @@ function CatalogNavigator() {
   const { activeNavigator, categoriesList, isLoading } = useSelector(state => state.catalog);
   const dispatch = useDispatch();
 
-  const handleClick = (evt) => {
-    evt.preventDefault();
-    dispatch(setActiveNavigator("All"));
+  const handleClickNavigator = (navigatorId) => {    
+    dispatch(setActiveNavigator(navigatorId));
   }
 
   return (
@@ -18,13 +17,20 @@ function CatalogNavigator() {
           <a
             className={activeNavigator === "All" ? "nav-link active" : "nav-link"}
             href=""
-            onClick={handleClick}
+            onClick={(evt) => {
+              evt.preventDefault();
+              handleClickNavigator("All");
+            }}
           >
             Всё
           </a>
         </li>
         {categoriesList.map(item => (
-          <CatalogNavigatorItem key={item.id} {...item} />
+          <CatalogNavigatorItem
+            key={item.id}
+            handleClickNavigator={handleClickNavigator}
+            activeNavigator={activeNavigator}
+            {...item} />
         ))}      
       </ul>
     ) : (
